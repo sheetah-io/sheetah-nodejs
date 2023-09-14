@@ -1,6 +1,6 @@
 {
   "name": "sheetah",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A Node.js library for exporting Excel files using sheetah.io",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/sheetah"
+    "url": "https://github.com/sheetah-io/sheetah-nodejs"
   },
   "keywords": ["sheetah", "excel", "export", "node.js"],
   "author": "Lopun",
