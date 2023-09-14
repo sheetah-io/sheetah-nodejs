@@ -1,6 +1,6 @@
 {
   "name": "sheetah",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "A Node.js library for exporting Excel files using sheetah.io",
   "main": "index.js",
   "scripts": {
