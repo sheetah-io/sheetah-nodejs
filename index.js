@@ -1,4 +1,3 @@
-const axios = require("axios");
 const API_URL = "https://sheetah.io/api/export/xlsx/v1";
 
 class Sheetah {
@@ -6,14 +5,21 @@ class Sheetah {
     this.config = {
       API_KEY,
       templateId: null,
+      tables: [],
       filename: null,
       sheets: [],
-      dataAreas: {},
+      password: null,
+      expireInDays: null,
     };
   }
 
   setTemplateId(templateId) {
     this.config.templateId = templateId;
+    return this;
+  }
+
+  setTables(tables) {
+    this.config.tables = tables;
     return this;
   }
 
@@ -31,24 +37,47 @@ class Sheetah {
     return this;
   }
 
-  setData(key, data) {
-    this.config.dataAreas[key] = data;
+  setPassword(password) {
+    this.config.password = password;
     return this;
   }
 
-  async export() {
-    const { API_KEY, templateId, filename, sheets, dataAreas } = this.config;
+  setExpireInDays(expireInDays) {
+    this.config.expireInDays = expireInDays;
+    return this;
+  }
 
-    try {
-      const response = await axios.post(API_URL, {
+  async exportExcel() {
+    const {
+      API_KEY,
+      templateId,
+      tables,
+      filename,
+      sheets,
+      password,
+      expireInDays,
+    } = this.config;
+
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
         API_KEY,
         templateId,
-        filename,
-        sheets,
-        dataAreas,
-      });
+        tables,
+        optional: {
+          filename,
+          sheets,
+          password,
+          expireInDays,
+        },
+      }),
+    };
 
-      const { message, staticFileUrl } = response.data;
+    try {
+      const response = await fetch(API_URL, requestOptions);
+      const data = await response.json();
+      const { message, staticFileUrl } = data;
       return { message, staticFileUrl };
     } catch (error) {
       throw { message: error.message, staticFileUrl: null };
@@ -56,4 +85,4 @@ class Sheetah {
   }
 }
 
-module.exports = Sheetah;
+export default Sheetah;

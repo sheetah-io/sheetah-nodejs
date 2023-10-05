@@ -1,8 +1,9 @@
 {
   "name": "sheetah",
-  "version": "0.1.1",
-  "description": "A Node.js library for exporting Excel files using sheetah.io",
+  "version": "0.2.0",
+  "description": "A Node.js excel export library using sheetah.io",
   "main": "index.js",
+  "typings": "index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -14,7 +15,6 @@
   "author": "Lopun",
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.21.1"
   },
   "homepage": "https://github.com/sheetah-io/sheetah-nodejs#readme",
   "bugs": {
