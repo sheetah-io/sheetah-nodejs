@@ -1,5 +1,7 @@
 # Sheetah Node.js SDK
 
+![Sheetah Landing Page](resources/sheetah-landing.png)
+
 Sheetah is a Node.js library simplifying the process of exporting Excel files utilizing the [sheetah.io](https://sheetah.io/) service. Sheetah enables you to generate Excel files from your data and templates quickly and easily.
 
 ## Installation
