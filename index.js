@@ -6,6 +6,7 @@ class Sheetah {
       API_KEY,
       templateId: null,
       tables: [],
+      variables: {},
       filename: null,
       sheets: [],
       password: null,
@@ -20,6 +21,11 @@ class Sheetah {
 
   setTables(tables) {
     this.config.tables = tables;
+    return this;
+  }
+
+  setVariables(variables) {
+    this.config.variables = variables;
     return this;
   }
 
@@ -52,6 +58,7 @@ class Sheetah {
       API_KEY,
       templateId,
       tables,
+      variables,
       filename,
       sheets,
       password,
@@ -65,6 +72,7 @@ class Sheetah {
         API_KEY,
         templateId,
         tables,
+        variables,
         optional: {
           filename,
           sheets,
