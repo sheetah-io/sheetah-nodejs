@@ -67,9 +67,11 @@ class Sheetah {
 
     const requestOptions = {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "X-API-KEY": `Bearer ${API_KEY}`,
+      },
       body: JSON.stringify({
-        API_KEY,
         templateId,
         tables,
         variables,
