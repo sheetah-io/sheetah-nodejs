@@ -1,4 +1,6 @@
-const API_URL = "https://sheetah.io/api/export/xlsx/v1";
+const fetch = require("node-fetch");
+
+const API_URL = "https://app.sheetah.io/api/export/xlsx/v1";
 
 class Sheetah {
   constructor(API_KEY) {

@@ -11,10 +11,16 @@
     "type": "git",
     "url": "https://github.com/sheetah-io/sheetah-nodejs"
   },
-  "keywords": ["sheetah", "excel", "export", "node.js"],
+  "keywords": [
+    "sheetah",
+    "excel",
+    "export",
+    "node.js"
+  ],
   "author": "Lopun",
   "license": "MIT",
   "dependencies": {
+    "node-fetch": "^2.7.0"
   },
   "homepage": "https://github.com/sheetah-io/sheetah-nodejs#readme",
   "bugs": {

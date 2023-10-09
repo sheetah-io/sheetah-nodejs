@@ -163,7 +163,7 @@ declare module "sheetah" {
      * @example
      * sheetah
      *   //...
-     *   .export()
+     *   .exportExcel()
      *   .then(result => {
      *     console.log(result.message);
      *     if (result.staticFileUrl) {
@@ -171,6 +171,6 @@ declare module "sheetah" {
      *     }
      *   });
      */
-    export(): Promise<{ message: string; staticFileUrl: string | null }>;
+    exportExcel(): Promise<{ message: string; staticFileUrl: string | null }>;
   }
 }
