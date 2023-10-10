@@ -1,6 +1,6 @@
 # Sheetah Node.js SDK
 
-![Sheetah Landing Page](resources/sheetah-landing.png)
+![Sheetah Landing Page](/resources/sheetah-landing.png)
 
 Sheetah is a Node.js library that streamlines the process of exporting Excel files. With the [sheetah.io](https://sheetah.io/) service, you can generate Excel files from your data and templates fast and effortlessly.
 
@@ -16,7 +16,7 @@ npm install sheetah
 
 First, obtain your API key from the [Developer Settings Page](https://app.sheetah.io/). Then use the following code to initialize Sheetah:
 
-![Developer Settings Screenshot](resources/developer-settings.png)
+![Developer Settings Screenshot](/resources/developer-settings.png)
 
 ```javascript
 const Sheetah = require("sheetah");
@@ -59,9 +59,15 @@ sheetah.setTables([
 ]);
 ```
 
+Table settings must be completed on the [Template Settings Page](https://app.sheetah.io/templates).
+
+![Table Settings](resources/table-settings.png)
+
+![Table Settings GIF](resources/table-settings.gif)
+
 #### 1.3. Setting Variables
 
-Use the `setVariables` method to add dynamic data:
+Use the `setVariables` method to add dynamic data. This is useful for dynamic data insertion:
 
 ```javascript
 sheetah.setVariables({
@@ -71,6 +77,8 @@ sheetah.setVariables({
   month: "08",
 });
 ```
+
+![Template Variables](resources/template-variables.png)
 
 #### 1.4. Setting Sheets
 
