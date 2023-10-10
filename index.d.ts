@@ -46,6 +46,15 @@ declare module "sheetah" {
   }
 
   /**
+   * Represents optional details for the exported file.
+   */
+  interface Options {
+    filename: string | null;
+    password: string | null;
+    expireInDays: number | null;
+  }
+
+  /**
    * Main class representing the Sheetah library.
    */
   export default class Sheetah {
@@ -108,69 +117,90 @@ declare module "sheetah" {
     setVariables(variables: { [key: string]: string }): Sheetah;
 
     /**
-     * Sets the filename for the sheet.
-     * @param filename The desired filename for the sheet.
+     * Sets information about the sheet.
+     * @param sheets Information about the sheets.
      * @returns The Sheetah instance for method chaining.
      * @example
      * sheetah
      *   // ...
-     *   .setFilename("revenue-2023-08");
+     *   .setSheets([
+     *     {
+     *       "id": 1,
+     *       "name": "Custom Sheet Name 1",
+     *       "directData": {"C3": "I'm C3"}
+     *     }
+     *   ]);
      */
-    setFilename(filename: string): Sheetah;
+    setSheets(sheets: SheetInfo[]): Sheetah;
 
     /**
-     * Sets information about the sheet.
-     * @param sheetInfo Information about the sheet.
+     * Sets options for the sheet.
+     * @param options A dictionary of options to be set.
      * @returns The Sheetah instance for method chaining.
      * @example
      * sheetah
      *   // ...
-     *   .setSheetInfo({
-     *     "id": 1,
-     *     "name": "Custom Sheet Name 1",
-     *     "directData": {"C3": "I'm C3"}
+     *   .setOptions({
+     *     "filename": "revenue-2023-08",
+     *     "password": "123456",
+     *     "expireInDays": 7
      *   });
      */
-    setSheetInfo(sheetInfo: SheetInfo): Sheetah;
-
-    /**
-     * Sets the password for the sheet.
-     * @param password The password for the sheet.
-     * @returns The Sheetah instance for method chaining.
-     * @example
-     * sheetah
-     *   // ...
-     *   .setPassword("123456");
-     */
-    setPassword(password: string): Sheetah;
-
-    /**
-     * Sets the expiration duration for the sheet.
-     * @param expireInDays The expiration duration in days.
-     * @returns The Sheetah instance for method chaining.
-     * @example
-     * sheetah
-     *   // ...
-     *   .setExpireInDays(7);
-     */
-    setExpireInDays(expireInDays: number): Sheetah;
+    setOptions(options: Options): Sheetah;
 
     /**
      * Exports the sheet and returns a promise with the result.
      * @returns A promise with the export result, including a message and a static file URL.
      * The message field can be either 'success' or an error message.
-     * The staticFileUrl field can be used by the user to access the exported sheet.
+     * The fileUrl field can be used by the user to access the exported sheet.
      * @example
      * sheetah
      *   //...
-     *   .exportExcel()
+     *   .exportExcelToFileUrl()
      *   .then(result => {
      *     console.log(result.message);
-     *     if (result.staticFileUrl) {
-     *       console.log("Access your sheet here:", result.staticFileUrl);
+     *     if (result.fileUrl) {
+     *       console.log("Access your sheet here:", result.fileUrl);
      *     }
      *   });
      */
-    exportExcel(): Promise<{ message: string; staticFileUrl: string | null }>;
+    exportExcelToFileUrl(): Promise<{
+      message?: string;
+      fileUrl: string | null;
+    }>;
+
+    /**
+     * Exports the sheet and returns it as a byte array.
+     * @returns A promise with the byte array of the exported sheet.
+     * @example
+     * sheetah
+     *   // ...
+     *   .exportExcelToBuffer()
+     *   .then(result => {
+     *     // use result.buffer
+     *   });
+     */
+    exportExcelToBuffer(): Promise<{
+      message?: string;
+      buffer: Buffer | null;
+    }>;
+
+    /**
+     * Exports the sheet and saves it to a local file.
+     * @param filepath The path for the file to be saved at.
+     * @returns A promise with a message and filepath.
+     * The message indicates if the file was downloaded successfully. The filepath is the path of the downloaded file.
+     * @example
+     * sheetah
+     *   // ...
+     *   .exportExcelToFile('/path/to/file.xlsx')
+     *   .then(result => {
+     *     console.log(result.message);
+     *     console.log("Downloaded file =", result.file);
+     *   });
+     */
+    exportExcelToFile(
+      filepath: string
+    ): Promise<{ message?: string; file: string | null }>;
   }
 }

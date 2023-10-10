@@ -9,10 +9,12 @@ class Sheetah {
       templateId: null,
       tables: [],
       variables: {},
-      filename: null,
       sheets: [],
-      password: null,
-      expireInDays: null,
+      options: {
+        filename: null,
+        password: null,
+        expireInDays: null,
+      },
     };
   }
 
@@ -31,41 +33,18 @@ class Sheetah {
     return this;
   }
 
-  setFilename(filename) {
-    this.config.filename = filename;
+  setSheets(sheets) {
+    this.config.sheets = sheets;
     return this;
   }
 
-  setSheetInfo({ id, name, directData }) {
-    this.config.sheets.push({
-      id,
-      name,
-      directData: directData || {},
-    });
-    return this;
+  setOptions(options) {
+    this.config.options = options;
   }
 
-  setPassword(password) {
-    this.config.password = password;
-    return this;
-  }
-
-  setExpireInDays(expireInDays) {
-    this.config.expireInDays = expireInDays;
-    return this;
-  }
-
-  async exportExcel() {
-    const {
-      API_KEY,
-      templateId,
-      tables,
-      variables,
-      filename,
-      sheets,
-      password,
-      expireInDays,
-    } = this.config;
+  async exportExcelToFileUrl() {
+    const { API_KEY, templateId, tables, variables, sheets, options } =
+      this.config;
 
     const requestOptions = {
       method: "POST",
@@ -77,22 +56,43 @@ class Sheetah {
         templateId,
         tables,
         variables,
-        optional: {
-          filename,
-          sheets,
-          password,
-          expireInDays,
-        },
+        sheets,
+        options,
       }),
     };
 
     try {
       const response = await fetch(API_URL, requestOptions);
       const data = await response.json();
-      const { message, staticFileUrl } = data;
-      return { message, staticFileUrl };
+      const { message, fileUrl } = data;
+      return { message, fileUrl };
     } catch (error) {
-      throw { message: error.message, staticFileUrl: null };
+      return { message: error.message, fileUrl: null };
+    }
+  }
+
+  async exportExcelToBuffer() {
+    const { message, staticFileUrl } = await this.exportExcelToFileUrl();
+
+    if (staticFileUrl) {
+      const response = await fetch(staticFileUrl);
+      const buffer = await response.buffer();
+      return { message, buffer };
+    } else {
+      return { message, buffer };
+    }
+  }
+
+  async exportExcelToFile(filepath) {
+    const { message, staticFileUrl } = await this.exportExcelToFileUrl();
+
+    if (staticFileUrl) {
+      const response = await fetch(staticFileUrl);
+      const buffer = await response.buffer();
+      fs.writeFileSync(filepath, buffer);
+      return { message: "File downloaded successfully!", file: filepath };
+    } else {
+      return { message, file: null };
     }
   }
 }
